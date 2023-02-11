@@ -1,0 +1,11 @@
+def getLocalProperties() {
+    Properties props = new Properties()
+    if (file('../credentials.properties').exists()) {
+        props.load(new FileInputStream(file('../credentials.properties')))
+    }
+    return props
+}
+
+ext {
+    getLocalProperties = this.&getLocalProperties
+}

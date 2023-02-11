@@ -3,16 +3,18 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply from: 'getProperties.gradle'
+
 android {
-    namespace 'com.adictosalainformatica.libreretroachievements'
-    compileSdk 33
+    namespace ApplicationId.id
+    compileSdk Versions.compileSdk
 
     defaultConfig {
-        applicationId "com.adictosalainformatica.libreretroachievements"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId ApplicationId.id
+        minSdk Versions.minSdk
+        targetSdk Versions.targetSdk
+        versionCode AppVersion.versionCode
+        versionName AppVersion.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -22,8 +24,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            Properties credentialsProperties = getLocalProperties()
+            buildConfigField("String", "API_KEY", "\"" + credentialsProperties['apiKey'] + "\"")
+        }
+        debug {
+            minifyEnabled false
+            Properties credentialsProperties = getLocalProperties()
+            buildConfigField("String", "API_KEY", "\"" + credentialsProperties['apiKey'] + "\"")
         }
     }
     compileOptions {
@@ -37,7 +46,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.2.0'
+        kotlinCompilerExtensionVersion Versions.kotlinCompilerExtensionVersion
     }
     packagingOptions {
         resources {
@@ -47,17 +56,27 @@ android {
 }
 
 dependencies {
+    implementation AndroidLibraries.coreKtx
+    implementation AndroidLibraries.lcRuntime
+    implementation AndroidLibraries.activityCompose
+    implementation AndroidLibraries.composeUi
+    implementation AndroidLibraries.composeUiTooling
+    implementation AndroidLibraries.composeMaterial
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
-    implementation "androidx.compose.ui:ui:$compose_ui_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
-    implementation 'androidx.compose.material:material:1.2.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    // Test
+    testImplementation TestLibraries.junitTest
+    androidTestImplementation TestLibraries.junitTest
+    androidTestImplementation  TestLibraries.espressoCore
+    androidTestImplementation TestLibraries.composeUiJunit4
+    debugImplementation TestLibraries.composeUiTooling
+    debugImplementation TestLibraries.composeUiTestManifest
+
+    // Timber
+    implementation (Libraries.timber)
+
+    // Startup
+    implementation Libraries.startupRuntime
+
+    // LeakCanary
+    debugImplementation Libraries.leakCanary
 }
