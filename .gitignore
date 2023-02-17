@@ -87,7 +87,5 @@ lint/tmp/
 /gradlew.bat
 /gradlew
 /.idea/compiler.xml
-/app/src/main/res/xml/data_extraction_rules.xml
-/app/src/main/res/xml/backup_rules.xml
 /.idea/.name
 /.idea/misc.xml
