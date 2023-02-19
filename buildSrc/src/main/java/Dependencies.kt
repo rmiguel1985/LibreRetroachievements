@@ -12,7 +12,7 @@ object Versions {
     const val buildTools = "30.0.3"
     const val minSdk = 24
     const val targetSdk = 33
-    const val kotlinCompilerExtensionVersion = "1.2.0"
+    const val kotlinCompilerExtensionVersion = "1.4.2"
 
     // Android Libraries
     const val coreKtx = "1.9.0"

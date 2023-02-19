@@ -56,6 +56,10 @@ android {
 }
 
 dependencies {
+    implementation project(":domain")
+    implementation project(":data")
+    implementation project(":usecases")
+
     implementation AndroidLibraries.coreKtx
     implementation AndroidLibraries.lcRuntime
     implementation AndroidLibraries.activityCompose
